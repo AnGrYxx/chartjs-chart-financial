@@ -1,98 +1,177 @@
-var barCount = 60;
-var initialDateStr = '01 Apr 2017 00:00 Z';
+function getDataGrd(period, start, end) {
+	
+	return fetch(`https://data.ostable.org/api/v1/candles/GRD-GBYTE/?period=${period}&start=${start}&end=${end}`)
+		.then(response => {
+			return response.json()
+		})
+		.then(json => {
+			console.log(json);
+			return json.map(item => {
+				return {
+					t: parseFloat(moment(item.start_timestamp).format('x')),
+					o: item.open_price,
+					h: item.highest_price,
+					l: item.lowest_price,
+					c: item.close_price
+				}
+			})
+		})
+		.then(json => {
+			console.log(json);
+			var ctx = document.getElementById('chartgrd').getContext('2d');
+			ctx.canvas.width = 1000;
+			ctx.canvas.height = 250;
+			var chart = new Chart(ctx, {
+				type: 'candlestick',
+				data: {
+					datasets: [{
+						label: 'GRD Price [GBYTE]',
+						data: json
+					}]
+				}
+			});
+			var update = function () {
+				var dataset = chart.config.data.datasets[0];
 
-var ctx = document.getElementById('chart').getContext('2d');
-ctx.canvas.width = 1000;
-ctx.canvas.height = 250;
-var chart = new Chart(ctx, {
-	type: 'candlestick',
-	data: {
-		datasets: [{
-			label: 'CHRT - Chart.js Corporation',
-			data: getRandomData(initialDateStr, barCount)
-		}]
-	}
-});
+				// from date
+				var fromDate = document.getElementById('fromDate').value;
 
-var getRandomInt = function(max) {
-	return Math.floor(Math.random() * Math.floor(max));
-};
+				// to date
+				var toDate = document.getElementById('toDate').value;
 
-function randomNumber(min, max) {
-	return Math.random() * (max - min) + min;
+				// period
+				var period = document.getElementById('period').value;
+
+				if(!!fromDate || !!toDate || !!period){
+					console.log('###');
+					console.log(period);
+					console.log(fromDate);
+					console.log(toDate);
+					if(!toDate) {
+						console.log('!toDate');
+						getDataGrd(period, fromDate, moment().format('YYYY-MM-DD'));
+					} else {
+						getDataGrd(period, fromDate, toDate);
+					} 
+					
+				}
+				
+
+			
+				// candlestick vs ohlc
+				var type = document.getElementById('type').value;
+				dataset.type = type;
+			
+				// linear vs log
+				var scaleType = document.getElementById('scale-type').value;
+				chart.config.options.scales.y.type = scaleType;
+			
+				// color
+				var colorScheme = document.getElementById('color-scheme').value;
+				if (colorScheme === 'neon') {
+					dataset.color = {
+						up: '#01ff01',
+						down: '#fe0000',
+						unchanged: '#999',
+					};
+				} else {
+					delete dataset.color;
+				}
+			
+				// border
+				var border = document.getElementById('border').value;
+				var defaultOpts = Chart.defaults.elements[type];
+				if (border === 'true') {
+					dataset.borderColor = defaultOpts.borderColor;
+				} else {
+					dataset.borderColor = {
+						up: defaultOpts.color.up,
+						down: defaultOpts.color.down,
+						unchanged: defaultOpts.color.up
+					};
+				}
+			
+				chart.update();
+			};
+			document.getElementById('update').addEventListener('click', update);
+			return json;
+		})
 }
 
-function randomBar(date, lastClose) {
-	var open = randomNumber(lastClose * 0.95, lastClose * 1.05).toFixed(2);
-	var close = randomNumber(open * 0.95, open * 1.05).toFixed(2);
-	var high = randomNumber(Math.max(open, close), Math.max(open, close) * 1.1).toFixed(2);
-	var low = randomNumber(Math.min(open, close) * 0.9, Math.min(open, close)).toFixed(2);
-	return {
-		t: date.valueOf(),
-		o: open,
-		h: high,
-		l: low,
-		c: close
-	};
+getDataGrd('daily', '2020-09-22', moment().format('YYYY-MM-DD'));
 
-}
 
-function getRandomData(dateStr, count) {
-	var date = luxon.DateTime.fromRFC2822(dateStr);
-	var data = [randomBar(date, 30)];
-	while (data.length < count) {
-		date = date.plus({days: 1});
-		if (date.weekday <= 5) {
-			data.push(randomBar(date, data[data.length - 1].c));
-		}
-	}
-	return data;
-}
+// function getDataGrb() {
+// 	return fetch('https://data.ostable.org/api/v1/candles/GRB-GBYTE/?period=daily&start=2020-09-22&end=2020-10-09')
+// 		.then(response => {
+// 			return response.json()
+// 		})
+// 		.then(json => {
+// 			console.log(json);
+// 			return json.map(item => {
+// 				return {
+// 					t: parseFloat(moment(item.start_timestamp).format('x')),
+// 					o: item.open_price,
+// 					h: item.highest_price,
+// 					l: item.lowest_price,
+// 					c: item.close_price
+// 				}
+// 			})
+// 		})
+// 		.then(json => {
+// 			console.log(json);
+// 			var ctx = document.getElementById('chartgrb').getContext('2d');
+// 			ctx.canvas.width = 1000;
+// 			ctx.canvas.height = 250;
+// 			var chart = new Chart(ctx, {
+// 				type: 'candlestick',
+// 				data: {
+// 					datasets: [{
+// 						label: 'GRB Price [GBYTE]',
+// 						data: json
+// 					}]
+// 				}
+// 			});
+// 			return json;
+// 		})
+// }
 
-var update = function() {
-	var dataset = chart.config.data.datasets[0];
+// getDataGrb();
 
-	// candlestick vs ohlc
-	var type = document.getElementById('type').value;
-	dataset.type = type;
 
-	// linear vs log
-	var scaleType = document.getElementById('scale-type').value;
-	chart.config.options.scales.y.type = scaleType;
+// function getDataGrau() {
+// 	return fetch('https://data.ostable.org/api/v1/candles/GRAU-GBYTE/?period=daily&start=2020-09-22&end=2020-10-09')
+// 		.then(response => {
+// 			return response.json()
+// 		})
+// 		.then(json => {
+// 			console.log(json);
+// 			return json.map(item => {
+// 				return {
+// 					t: parseFloat(moment(item.start_timestamp).format('x')),
+// 					o: item.open_price,
+// 					h: item.highest_price,
+// 					l: item.lowest_price,
+// 					c: item.close_price
+// 				}
+// 			})
+// 		})
+// 		.then(json => {
+// 			console.log(json);
+// 			var ctx = document.getElementById('chartgrau').getContext('2d');
+// 			ctx.canvas.width = 1000;
+// 			ctx.canvas.height = 250;
+// 			var chart = new Chart(ctx, {
+// 				type: 'candlestick',
+// 				data: {
+// 					datasets: [{
+// 						label: 'GRAU Price [GBYTE]',
+// 						data: json
+// 					}]
+// 				}
+// 			});
+// 			return json;
+// 		})
+// }
 
-	// color
-	var colorScheme = document.getElementById('color-scheme').value;
-	if (colorScheme === 'neon') {
-		dataset.color = {
-			up: '#01ff01',
-			down: '#fe0000',
-			unchanged: '#999',
-		};
-	} else {
-		delete dataset.color;
-	}
-
-	// border
-	var border = document.getElementById('border').value;
-	var defaultOpts = Chart.defaults.elements[type];
-	if (border === 'true') {
-		dataset.borderColor = defaultOpts.borderColor;
-	} else {
-		dataset.borderColor = {
-			up: defaultOpts.color.up,
-			down: defaultOpts.color.down,
-			unchanged: defaultOpts.color.up
-		};
-	}
-
-	chart.update();
-};
-
-document.getElementById('update').addEventListener('click', update);
-
-document.getElementById('randomizeData').addEventListener('click', function() {
-	chart.data.datasets.forEach(function(dataset) {
-		dataset.data = getRandomData(initialDateStr, barCount);
-	});
-	update();
-});
+// getDataGrau();
