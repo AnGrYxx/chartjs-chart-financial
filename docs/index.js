@@ -56,8 +56,6 @@ function getDataGrd(period, start, end) {
 					
 				}
 				
-
-			
 				// candlestick vs ohlc
 				var type = document.getElementById('type').value;
 				dataset.type = type;
