@@ -42,9 +42,6 @@ var update = function () {
 			// candlestick vs ohlc
 			var type = document.getElementById('type').value;
 
-			// linear vs log
-			var scaleType = document.getElementById('scale-type').value;
-			chart.config.options.scales.y.type = scaleType;
 
 			// color
 			var colorScheme = document.getElementById('color-scheme').value;
@@ -75,6 +72,10 @@ var update = function () {
 					datasets: [dataset]
 				}
 			});
+
+			// linear vs log
+			var scaleType = document.getElementById('scale-type').value;
+			chart.config.options.scales.y.type = scaleType;
 
 			chart.update();
 		});
