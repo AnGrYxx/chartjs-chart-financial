@@ -26,7 +26,7 @@ var update = function () {
 	// from date
 	var fromDate = document.getElementById('fromDate').value;
 	// to date
-	var toDate = document.getElementById('toDate').value || moment().format('YYYY-MM-DD');
+	var toDate = document.getElementById('toDate').value;
 	// period
 	var period = document.getElementById('period').value;
 	// token
@@ -81,9 +81,23 @@ var update = function () {
 		});
 	}
 };
+var period = function () {
+	// period
+	var period = document.getElementById('period').value;
+	if (period === 'daily') {
+		document.getElementById('fromDate').value = moment().subtract(30, 'days').format('YYYY-MM-DD');
+		document.getElementById('toDate').value = moment().format('YYYY-MM-DD');
+	}
+	else if (period === 'hourly') {
+		document.getElementById('fromDate').value = moment().subtract(2, 'days').format('YYYY-MM-DD');
+		document.getElementById('toDate').value = moment().format('YYYY-MM-DD');
+	}
+};
 
+document.getElementById('period').addEventListener('change', period);
 document.getElementById('update').addEventListener('click', update);
 
 (function() {
+	period();
 	update();
 })();
