@@ -5,7 +5,6 @@ function getDataGrd(period, start, end, token) {
 			return response.json()
 		})
 		.then(json => {
-			console.log(json);
 			return json.map(item => {
 				return {
 					t: parseFloat(moment(item.start_timestamp).format('x')),
@@ -17,7 +16,6 @@ function getDataGrd(period, start, end, token) {
 			})
 		})
 		.then(json => {
-			console.log(json);
 			var ctx = document.getElementById('chartgrd').getContext('2d');
 			ctx.canvas.width = 1000;
 			ctx.canvas.height = 250;
@@ -47,13 +45,7 @@ function getDataGrd(period, start, end, token) {
 
 
 				if(!!fromDate || !!toDate || !!period || !!token){
-					console.log('###');
-					console.log(period);
-					console.log(fromDate);
-					console.log(toDate);
-					console.log(token);
 					if(!toDate) {
-						console.log('!toDate');
 						getDataGrd(period, fromDate, moment().format('YYYY-MM-DD'), token);
 					} else {
 						getDataGrd(period, fromDate, toDate, token);
