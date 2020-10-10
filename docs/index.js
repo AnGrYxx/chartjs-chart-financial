@@ -78,6 +78,10 @@ var update = function() {
 
 	if(!!fromDate || !!toDate || !!period || !!token){
 		getDataGrd(period, fromDate, toDate, token, function(json) {
+			if (!Object.keys(json).length) {
+				alert('data not available');
+				return;
+			}
 			dataset.label = `${token.toUpperCase()} Price [GBYTE]`;
 			dataset.data = json;
 			chart.update();
