@@ -30,7 +30,7 @@ function getDataGrd(period, start, end, token, callback) {
 		.then(callback)
 }
 
-var update = function () {
+var update = function() {
 	var dataset = chart.config.data.datasets[0];
 	if (dataset.data.length == 1) dataset.data.pop();
 
@@ -84,7 +84,7 @@ var update = function () {
 		});
 	}
 };
-var period = function () {
+var period = function() {
 	// period
 	var period = document.getElementById('period').value;
 	if (period === 'daily') {
