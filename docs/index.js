@@ -1,4 +1,4 @@
-var ctx = document.getElementById('chartgrd').getContext('2d');
+var ctx = document.getElementById('chart').getContext('2d');
 ctx.canvas.width = window.innerWidth/2;
 ctx.canvas.height = window.innerHeight/2;
 
@@ -34,13 +34,17 @@ var update = function () {
 
 	if(!!fromDate || !!toDate || !!period || !!token){
 		getDataGrd(period, fromDate, toDate, token, function(json) {
-			// candlestick vs ohlc
-			var type = document.getElementById('type').value;
-
 			dataset = {
 				label: `${token.toUpperCase()} Price [GBYTE]`,
 				data: json
 			};
+
+			// candlestick vs ohlc
+			var type = document.getElementById('type').value;
+
+			// linear vs log
+			var scaleType = document.getElementById('scale-type').value;
+			chart.config.options.scales.y.type = scaleType;
 
 			// color
 			var colorScheme = document.getElementById('color-scheme').value;
@@ -72,17 +76,13 @@ var update = function () {
 				}
 			});
 
-			// linear vs log
-			var scaleType = document.getElementById('scale-type').value;
-			chart.config.options.scales.y.type = scaleType;
-
 			chart.update();
 		});
 	}
 };
 
+document.getElementById('update').addEventListener('click', update);
 
 (function() {
-	document.getElementById('update').addEventListener('click', update);
 	update();
 })();
