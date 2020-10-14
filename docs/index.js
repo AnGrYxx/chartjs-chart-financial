@@ -92,11 +92,11 @@ var period = function() {
 	// period
 	var period = document.getElementById('period').value;
 	if (period === 'daily') {
-		document.getElementById('fromDate').value = moment().subtract(29, 'days').format('YYYY-MM-DD');
+		document.getElementById('fromDate').value = moment().subtract(30, 'days').format('YYYY-MM-DD');
 		document.getElementById('toDate').value = moment().add(1, 'days').format('YYYY-MM-DD');
 	}
 	else if (period === 'hourly') {
-		document.getElementById('fromDate').value = moment().subtract(1, 'days').format('YYYY-MM-DD');
+		document.getElementById('fromDate').value = moment().subtract(2, 'days').format('YYYY-MM-DD');
 		document.getElementById('toDate').value = moment().add(1, 'days').format('YYYY-MM-DD');
 	}
 };
