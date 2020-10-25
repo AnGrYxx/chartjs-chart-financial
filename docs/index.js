@@ -12,7 +12,7 @@ var chart = new Chart(ctx, {
 
 function getDataGrd(period, start, end, token, callback) {
 
-	return fetch(`https://data.ostable.org/api/v1/candles/${token.toUpperCase()}-GBYTE/?period=${period}&start=${start}&end=${end}`)
+	return fetch(`https://data.ostable.org/api/v1/candles/${token.split(',')[0].toUpperCase()}-GBYTE/?period=${period}&start=${start}&end=${end}`)
 		.then(response => {
 			return response.json()
 		})
@@ -74,7 +74,10 @@ var update = function () {
 	// period
 	var period = document.getElementById('period').value;
 	// token
-	var token = document.getElementById('token').value;
+	var token = document.getElementById('token').value.split(',')[0];
+
+	var addressUrl = document.getElementById('token').value.split(',')[1];
+
 
 	if (!!fromDate || !!toDate || !!period || !!token) {
 		getDataGrd(period, fromDate, toDate, token, function (json) {
@@ -85,6 +88,10 @@ var update = function () {
 			dataset.label = `${token.toUpperCase()} Price [GBYTE]`;
 			dataset.data = json;
 			chart.update();
+			document.getElementById("actions").innerHTML = `
+                <a href="https://ostable.org/trade/${addressUrl}#buy" target="_blank">
+                    <button class="btn btn-primary">Buy or Sell ${token.toUpperCase()}</button>
+                </a>`;
 		});
 	}
 };
@@ -147,7 +154,9 @@ $('#period,#token,#fromDate,#toDate,#type,#scale-type,#color-scheme,#border').on
 	// period
 	var period = document.getElementById('period').value;
 	// token
-	var token = document.getElementById('token').value;
+	var token = document.getElementById('token').value.split(',')[0];
+
+	var addressUrl = document.getElementById('token').value.split(',')[1];
 
 	if (!!fromDate || !!toDate || !!period || !!token) {
 		getDataGrd(period, fromDate, toDate, token, function (json) {
@@ -158,6 +167,10 @@ $('#period,#token,#fromDate,#toDate,#type,#scale-type,#color-scheme,#border').on
 			dataset.label = `${token.toUpperCase()} Price [GBYTE]`;
 			dataset.data = json;
 			chart.update();
+			document.getElementById("actions").innerHTML = `
+                <a href="https://ostable.org/trade/${addressUrl}#buy" target="_blank">
+                    <button class="btn btn-primary">Buy or Sell ${token.toUpperCase()}</button>
+                </a>`;
 		});
 	}
 });

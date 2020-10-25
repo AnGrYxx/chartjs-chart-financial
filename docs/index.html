@@ -32,41 +32,41 @@
 		</div>
 		<div class="container pt-3">
 			<div class="row justify-content-md-center text-center">
-				<div class="col-md-auto">
+				<div class="col col-lg-2 pt-3">
 					Select Token:
 					<br>
 					<select class="form-control mt-2" id="token">
 						<optgroup label="Governance tokens">
-							<option value="grd" selected>GRD</option>
-							<option value="grb">GRB</option>
-							<option value="grau">GRAU</option>
-							<option value="grgb">GRGB</option>
-							<option value="grgb2">GRGB2</option>
-							<option value="grgb2s">GRGB2S</option>
+							<option value="grd,26XAPPPTTYRIOSYNCUV3NS2H57X5LZLJ" selected>GRD</option>
+							<option value="grb,Z7GNZCFDEWFKYOO6OIAZN7GH7DEKDHKA">GRB</option>
+							<option value="grau,UCWEMOXEYFUDDBJLHIHZ3NIAX3QD2YFD">GRAU</option>
+							<option value="grgb,UH6SNZMZKHWMRM7IQZGFPD5PQULZZSBI">GRGB</option>
+							<option value="grgb2,MCZAGO47NLPO25KOOJHN22PNKEGLQ6XV">GRGB2</option>
+							<option value="grgb2s,N2P2OG4B32ZHGMPDJSSNNTNWYCOPFNVW">GRGB2S</option>
 						</optgroup>
 						<optgroup label="Leverage tokens">
-							<option value="gb2">GB2</option>
-							<option value="gb2s">GB2S</option>
+							<option value="gb2,MCZAGO47NLPO25KOOJHN22PNKEGLQ6XV">GB2</option>
+							<option value="gb2s,N2P2OG4B32ZHGMPDJSSNNTNWYCOPFNVW">GB2S</option>
 						</optgroup>
 						<optgroup label="Interest tokens">
-							<option value="iusd">IUSD</option>
-							<option value="ibit">IBIT</option>
-							<option value="iau">IAU</option>
-							<option value="igb">IGB</option>
+							<option value="iusd,26XAPPPTTYRIOSYNCUV3NS2H57X5LZLJ">IUSD</option>
+							<option value="ibit,Z7GNZCFDEWFKYOO6OIAZN7GH7DEKDHKA">IBIT</option>
+							<option value="iau,UCWEMOXEYFUDDBJLHIHZ3NIAX3QD2YFD">IAU</option>
+							<option value="igb,UH6SNZMZKHWMRM7IQZGFPD5PQULZZSBI">IGB</option>
 						</optgroup>
 					</select>
 				</div>
-				<div class="col col-lg-2">
+				<div class="col col-lg-2 pt-3">
 					From Date:
 					<br>
 					<input class="form-control mt-2" type="date" id="fromDate" placeholder="YYYY-MM-DD">
 				</div>
-				<div class="col-md-auto">
+				<div class="col col-lg-2 pt-3">
 					To Date:
 					<br>
 					<input class="form-control mt-2" type="date" id="toDate" placeholder="YYYY-MM-DD">
 				</div>
-				<div class="col col-lg-2">
+				<div class="col col-lg-2 pt-3">
 					Period:
 					<br>
 					<select class="form-control mt-2" id="period">
@@ -76,7 +76,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="container pt-3">
+		<div class="container pt-4">
 			<div class="row justify-content-md-center text-center">
 				<div class="col col-lg-2">
 					Bar Type:
@@ -109,6 +109,17 @@
 						<option value="true" selected>Yes</option>
 						<option value="false">No</option>
 					</select>
+				</div>
+			</div>
+		</div>
+		<div class="container pt-4">
+			<div class="row justify-content-md-center text-center">
+				<div class="col col-lg-6">
+					<p>
+						<b>Actions</b>
+					</p>
+					<p id="actions">
+					</p>
 				</div>
 			</div>
 		</div>
