@@ -111,7 +111,7 @@ var update = function () {
 				json = [{}];
 				alert('not enough data available');
 			}
-			dataset.label = `${token.toUpperCase()} Price in ${token2.toUpperCase()}`;
+			dataset.label = `${token.toUpperCase()} Price [${token2.toUpperCase()}]`;
 			dataset.data = json;
 			chart.update();
 			document.getElementById("actions").innerHTML = `
@@ -210,7 +210,7 @@ $('#period,#token,#fromDate,#toDate,#type,#scale-type,#color-scheme,#border').on
 				json = [{}];
 				alert('not enough data available');
 			}
-			dataset.label = `${token.toUpperCase()} Price in ${token2.toUpperCase()}`;
+			dataset.label = `${token.toUpperCase()} Price [${token2.toUpperCase()}]`;
 			dataset.data = json;
 			chart.update();
 			document.getElementById("actions").innerHTML = `
