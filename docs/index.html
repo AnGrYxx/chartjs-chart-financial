@@ -35,7 +35,7 @@
 				<div class="col-md-auto">
 					Select Token:
 					<br>
-					<select id="token">
+					<select class="form-control mt-2" id="token">
 						<optgroup label="Governance tokens">
 							<option value="grd" selected>GRD</option>
 							<option value="grb">GRB</option>
@@ -59,17 +59,17 @@
 				<div class="col col-lg-2">
 					From Date:
 					<br>
-					<input type="date" id="fromDate" placeholder="YYYY-MM-DD">
+					<input class="form-control mt-2" type="date" id="fromDate" placeholder="YYYY-MM-DD">
 				</div>
 				<div class="col-md-auto">
 					To Date:
 					<br>
-					<input type="date" id="toDate" placeholder="YYYY-MM-DD">
+					<input class="form-control mt-2" type="date" id="toDate" placeholder="YYYY-MM-DD">
 				</div>
 				<div class="col col-lg-2">
 					Period:
 					<br>
-					<select id="period">
+					<select class="form-control mt-2" id="period">
 						<option value="daily" selected>Daily</option>
 						<option value="hourly">Hourly</option>
 					</select>
@@ -81,7 +81,7 @@
 				<div class="col col-lg-2">
 					Bar Type:
 					<br>
-					<select id="type">
+					<select class="form-control mt-2" id="type">
 						<option value="candlestick" selected>Candlestick</option>
 						<option value="ohlc">OHLC</option>
 					</select>
@@ -89,7 +89,7 @@
 				<div class="col col-lg-2">
 					Scale Type:
 					<br>
-					<select id="scale-type">
+					<select class="form-control mt-2" id="scale-type">
 						<option value="linear" selected>Linear</option>
 						<option value="logarithmic">Logarithmic</option>
 					</select>
@@ -97,7 +97,7 @@
 				<div class="col col-lg-2">
 					Color Scheme:
 					<br>
-					<select id="color-scheme">
+					<select class="form-control mt-2" id="color-scheme">
 						<option value="muted" selected>Muted</option>
 						<option value="neon">Neon</option>
 					</select>
@@ -105,17 +105,10 @@
 				<div class="col col-lg-2">
 					Border:
 					<br>
-					<select id="border">
+					<select class="form-control mt-2" id="border">
 						<option value="true" selected>Yes</option>
 						<option value="false">No</option>
 					</select>
-				</div>
-			</div>
-		</div>
-		<div class="container pt-3">
-			<div class="row">
-				<div class="col-12 text-center">
-					<button id="update" class="btn btn-primary">Update</button>
 				</div>
 			</div>
 		</div>
