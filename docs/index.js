@@ -10,24 +10,47 @@ var chart = new Chart(ctx, {
 	}
 });
 
-function getDataGrd(period, start, end, token, callback) {
+function getDataGrd(period, start, end, token, addressUrl, token2, oswap, callback) {
 
-	return fetch(`https://data.ostable.org/api/v1/candles/${token.split(',')[0].toUpperCase()}-GBYTE/?period=${period}&start=${start}&end=${end}`)
-		.then(response => {
-			return response.json()
-		})
-		.then(json => {
-			return json.map(item => {
-				return {
-					t: parseFloat(moment(item.start_timestamp).format('x')),
-					o: item.open_price,
-					h: item.highest_price,
-					l: item.lowest_price,
-					c: item.close_price
-				}
-			});
-		})
-		.then(callback)
+	if (oswap === "oswap") {
+		console.log(token);
+		console.log(token2);
+		return fetch(`https://data.oswap.io/api/v1/candles/${token.toUpperCase()}-${token2.toUpperCase()}?period=${period}&start=${start}&end=${end}`)
+			.then(response => {
+				return response.json()
+			})
+			.then(json => {
+				return json.map(item => {
+					return {
+						t: parseFloat(moment(item.start_timestamp).format('x')),
+						o: item.open_price,
+						h: item.highest_price,
+						l: item.lowest_price,
+						c: item.close_price
+					}
+				});
+			})
+			.then(callback)
+	} else {
+		return fetch(`https://data.ostable.org/api/v1/candles/${token.toUpperCase()}-GBYTE/?period=${period}&start=${start}&end=${end}`)
+			.then(response => {
+				return response.json()
+			})
+			.then(json => {
+				return json.map(item => {
+					return {
+						t: parseFloat(moment(item.start_timestamp).format('x')),
+						o: item.open_price,
+						h: item.highest_price,
+						l: item.lowest_price,
+						c: item.close_price
+					}
+				});
+			})
+			.then(callback)
+	}
+
+
 }
 
 var update = function () {
@@ -78,9 +101,26 @@ var update = function () {
 
 	var addressUrl = document.getElementById('token').value.split(',')[1];
 
+	var token2 = document.getElementById('token').value.split(',')[2];
 
-	if (!!fromDate || !!toDate || !!period || !!token) {
-		getDataGrd(period, fromDate, toDate, token, function (json) {
+	var oswap = document.getElementById('token').value.split(',')[3];
+
+	if (!!token2) {
+		getDataGrd(period, fromDate, toDate, token, addressUrl, token2, oswap, function (json) {
+			if (Object.keys(json).length < 2) {
+				json = [{}];
+				alert('not enough data available');
+			}
+			dataset.label = `${token.toUpperCase()} Price [GBYTE]`;
+			dataset.data = json;
+			chart.update();
+			document.getElementById("actions").innerHTML = `
+                <a href="https://oswap.io/#/swap/${addressUrl}" target="_blank">
+				<button class="btn btn-primary">Trade ${token.toUpperCase()}-${token2.toUpperCase()}</button>
+                </a>`;
+		});
+	} else {
+		getDataGrd(period, fromDate, toDate, token, addressUrl, token2, oswap, function (json) {
 			if (Object.keys(json).length < 2) {
 				json = [{}];
 				alert('not enough data available');
@@ -94,6 +134,8 @@ var update = function () {
                 </a>`;
 		});
 	}
+
+
 };
 
 var period = function () {
@@ -158,8 +200,12 @@ $('#period,#token,#fromDate,#toDate,#type,#scale-type,#color-scheme,#border').on
 
 	var addressUrl = document.getElementById('token').value.split(',')[1];
 
-	if (!!fromDate || !!toDate || !!period || !!token) {
-		getDataGrd(period, fromDate, toDate, token, function (json) {
+	var token2 = document.getElementById('token').value.split(',')[2];
+
+	var oswap = document.getElementById('token').value.split(',')[3];
+
+	if (!!token2) {
+		getDataGrd(period, fromDate, toDate, token, addressUrl, token2, oswap, function (json) {
 			if (Object.keys(json).length < 2) {
 				json = [{}];
 				alert('not enough data available');
@@ -168,14 +214,30 @@ $('#period,#token,#fromDate,#toDate,#type,#scale-type,#color-scheme,#border').on
 			dataset.data = json;
 			chart.update();
 			document.getElementById("actions").innerHTML = `
+                <a href="https://oswap.io/#/swap/${addressUrl}" target="_blank">
+                    <button class="btn btn-primary">Trade ${token.toUpperCase()}-${token2.toUpperCase()}</button>
+                </a>`;
+		});
+	} else {
+		if (!!fromDate || !!toDate || !!period || !!token) {
+			getDataGrd(period, fromDate, toDate, token, addressUrl, token2, oswap, function (json) {
+				if (Object.keys(json).length < 2) {
+					json = [{}];
+					alert('not enough data available');
+				}
+				dataset.label = `${token.toUpperCase()} Price [GBYTE]`;
+				dataset.data = json;
+				chart.update();
+				document.getElementById("actions").innerHTML = `
                 <a href="https://ostable.org/trade/${addressUrl}#buy" target="_blank">
                     <button class="btn btn-primary">Buy or Sell ${token.toUpperCase()}</button>
                 </a>`;
-		});
+			});
+		}
 	}
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
 	period();
 	update();
 });
