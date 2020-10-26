@@ -109,7 +109,7 @@ var update = function () {
 		getDataGrd(period, fromDate, toDate, token, addressUrl, token2, oswap, function (json) {
 			if (Object.keys(json).length < 2) {
 				json = [{}];
-				alert('not enough data available');
+				alert('not enough data available, use different time period');
 			}
 			dataset.label = `${token.toUpperCase()} Price [${token2.toUpperCase()}]`;
 			dataset.data = json;
@@ -124,7 +124,7 @@ var update = function () {
 			getDataGrd(period, fromDate, toDate, token, addressUrl, token2, oswap, function (json) {
 				if (Object.keys(json).length < 2) {
 					json = [{}];
-					alert('not enough data available');
+					alert('not enough data available, use different time period');
 				}
 				dataset.label = `${token.toUpperCase()} Price [GBYTE]`;
 				dataset.data = json;
