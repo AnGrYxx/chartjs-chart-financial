@@ -151,9 +151,12 @@ var period = function () {
 	}
 };
 
-
-$('#period,#token,#fromDate,#toDate,#type,#scale-type,#color-scheme,#border').on('change', function () {
+$('#period').on('change', function () {
 	period();
+	update();
+});
+
+$('#token,#fromDate,#toDate,#type,#scale-type,#color-scheme,#border').on('change', function () {
 	update();
 });
 
