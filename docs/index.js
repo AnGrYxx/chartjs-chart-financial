@@ -130,7 +130,7 @@ var update = function () {
 				dataset.data = json;
 				chart.update();
 				document.getElementById("actions").innerHTML = `
-					<a href="https://ostable.org/trade/${addressUrl}#buy" target="_blank">
+					<a href="https://ostable.org/trade/${addressUrl}?r=UB6CSL6DSZPMACGZDEUKE4RLVWNXUPAJ#buy" target="_blank">
 						<button class="btn btn-primary">Buy or Sell ${token.toUpperCase()}</button>
 					</a>`;
 			});
