@@ -105,7 +105,7 @@ var update = function () {
 
 	var oswap = document.getElementById('token').value.split(',')[3];
 
-	if (!!oswap) {
+	if (!!fromDate || !!toDate || !!period || !!token || !!token2) {
 		getDataGrd(period, fromDate, toDate, token, addressUrl, token2, oswap, function (json) {
 			if (Object.keys(json).length < 2) {
 				json = [{}];
@@ -114,27 +114,22 @@ var update = function () {
 			dataset.label = `${token.toUpperCase()} Price [${token2.toUpperCase()}]`;
 			dataset.data = json;
 			chart.update();
-			document.getElementById("actions").innerHTML = `
+			if (!!oswap) {
+				document.getElementById("actions").innerHTML = `
 				<a href="https://oswap.io/#/swap/${addressUrl}" target="_blank">
 					<button class="btn btn-primary">Trade ${token.toUpperCase()}-${token2.toUpperCase()}</button>
 				</a>`;
-		});
-	} else {
-		if (!!fromDate || !!toDate || !!period || !!token) {
-			getDataGrd(period, fromDate, toDate, token, addressUrl, token2, oswap, function (json) {
-				if (Object.keys(json).length < 2) {
-					json = [{}];
-					alert('not enough data available, use different time period');
-				}
-				dataset.label = `${token.toUpperCase()} Price [GBYTE]`;
-				dataset.data = json;
-				chart.update();
+			}
+			else {
 				document.getElementById("actions").innerHTML = `
-					<a href="https://ostable.org/trade/${addressUrl}/buy-redeem?r=UB6CSL6DSZPMACGZDEUKE4RLVWNXUPAJ" target="_blank">
-						<button class="btn btn-primary">Buy or Sell ${token.toUpperCase()}</button>
-					</a>`;
-			});
-		}
+				<a href="https://ostable.org/trade/${addressUrl}/buy-redeem?r=UB6CSL6DSZPMACGZDEUKE4RLVWNXUPAJ" target="_blank">
+					<button class="btn btn-primary">Buy or Sell ${token.toUpperCase()}</button>
+				</a>`;
+			}
+		});
+	}
+	else {
+		alert('missing data');
 	}
 };
 
