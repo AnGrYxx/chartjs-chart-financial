@@ -32,7 +32,7 @@ function getDataGrd(period, start, end, token, addressUrl, token2, oswap, callba
 			})
 			.then(callback)
 	} else {
-		return fetch(`https://data.ostable.org/api/v1/candles/${token.toUpperCase()}-GBYTE/?period=${period}&start=${start}&end=${end}`)
+		return fetch(`https://data.ostable.org/api/v1/candles/${token.toUpperCase()}-${token2.toUpperCase()}/?period=${period}&start=${start}&end=${end}`)
 			.then(response => {
 				return response.json()
 			})
@@ -101,11 +101,11 @@ var update = function () {
 
 	var addressUrl = document.getElementById('token').value.split(',')[1];
 
-	var token2 = document.getElementById('token').value.split(',')[2];
+	var token2 = document.getElementById('token').value.split(',')[2] || 'GBYTE';
 
 	var oswap = document.getElementById('token').value.split(',')[3];
 
-	if (!!token2) {
+	if (!!oswap) {
 		getDataGrd(period, fromDate, toDate, token, addressUrl, token2, oswap, function (json) {
 			if (Object.keys(json).length < 2) {
 				json = [{}];
@@ -130,7 +130,7 @@ var update = function () {
 				dataset.data = json;
 				chart.update();
 				document.getElementById("actions").innerHTML = `
-					<a href="https://ostable.org/trade/${addressUrl}?r=UB6CSL6DSZPMACGZDEUKE4RLVWNXUPAJ#buy" target="_blank">
+					<a href="https://ostable.org/trade/${addressUrl}/buy-redeem?r=UB6CSL6DSZPMACGZDEUKE4RLVWNXUPAJ" target="_blank">
 						<button class="btn btn-primary">Buy or Sell ${token.toUpperCase()}</button>
 					</a>`;
 			});
