@@ -10,7 +10,7 @@ var chart = new Chart(ctx, {
 	}
 });
 
-function getDataGrd(period, start, end, token, addressUrl, token2, oswap, callback) {
+function getDataGrd(period, start, end, token, token2, oswap, callback) {
 
 	if (oswap === "oswap") {
 		console.log(token);
@@ -99,14 +99,14 @@ var update = function () {
 	// token
 	var token = document.getElementById('token').value.split(',')[0];
 
-	var addressUrl = document.getElementById('token').value.split(',')[1];
+	var addressUrl = document.getElementById('token').value.split(',')[1] || '';
 
 	var token2 = document.getElementById('token').value.split(',')[2] || 'GBYTE';
 
 	var oswap = document.getElementById('token').value.split(',')[3];
 
 	if (!!fromDate || !!toDate || !!period || !!token || !!token2) {
-		getDataGrd(period, fromDate, toDate, token, addressUrl, token2, oswap, function (json) {
+		getDataGrd(period, fromDate, toDate, token, token2, oswap, function (json) {
 			if (Object.keys(json).length < 2) {
 				json = [{}];
 				alert('not enough data available, use different time period');
@@ -114,7 +114,13 @@ var update = function () {
 			dataset.label = `${token.toUpperCase()} Price [${token2.toUpperCase()}]`;
 			dataset.data = json;
 			chart.update();
-			if (!!oswap) {
+
+			if (!addressUrl) {
+				document.getElementById("actions").innerHTML = `
+					<button class="btn btn-primary" disabled="disabled">Not tradable directly</button>
+				`;
+			}
+			else if (!!oswap) {
 				document.getElementById("actions").innerHTML = `
 				<a href="https://oswap.io/#/swap/${addressUrl}" target="_blank">
 					<button class="btn btn-primary">Trade ${token.toUpperCase()}-${token2.toUpperCase()}</button>
