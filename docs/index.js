@@ -17,7 +17,8 @@ function getDataGrd(period, start, end, token, token2, oswap, callback) {
 		console.log(token2);
 		return fetch(`https://data.oswap.io/api/v1/candles/${token.toUpperCase()}-${token2.toUpperCase()}?period=${period}&start=${start}&end=${end}`)
 			.then(response => {
-				return response.json()
+				if (!response.ok) throw new Error('Network response was not ok');
+				return response.json();
 			})
 			.then(json => {
 				return json.map(item => {
@@ -31,10 +32,12 @@ function getDataGrd(period, start, end, token, token2, oswap, callback) {
 				});
 			})
 			.then(callback)
+			.catch(alert);
 	} else {
 		return fetch(`https://data.ostable.org/api/v1/candles/${token.toUpperCase()}-${token2.toUpperCase()}/?period=${period}&start=${start}&end=${end}`)
 			.then(response => {
-				return response.json()
+				if (!response.ok) throw new Error('Network response was not ok');
+				return response.json();
 			})
 			.then(json => {
 				return json.map(item => {
@@ -48,6 +51,7 @@ function getDataGrd(period, start, end, token, token2, oswap, callback) {
 				});
 			})
 			.then(callback)
+			.catch(alert);
 	}
 
 
